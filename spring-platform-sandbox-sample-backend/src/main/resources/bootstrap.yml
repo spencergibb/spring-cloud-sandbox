@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: foo
+  platform:
+    config:
+      uri: http://localhost:${config.port:8888}

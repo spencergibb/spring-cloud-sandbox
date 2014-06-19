@@ -1,0 +1,5 @@
+info:
+  component: Platform Sample Frontend
+
+server:
+  port: 9080
