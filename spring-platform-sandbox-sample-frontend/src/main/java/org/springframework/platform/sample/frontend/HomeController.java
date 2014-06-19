@@ -42,6 +42,13 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping("/fail")
+    public String fail(Map<String, Object> model) {
+        model.put("message", "Hello "+helloService.getMessageFail());
+        values(model);
+        return "home";
+    }
+
     private void values(Map<String, Object> model) {
         model.put("foo", frontendProperties.getFoo());
         model.put("title", "Hello Home");

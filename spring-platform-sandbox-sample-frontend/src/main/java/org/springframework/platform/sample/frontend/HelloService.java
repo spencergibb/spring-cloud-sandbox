@@ -47,6 +47,11 @@ public class HelloService {
         };
     }
 
+    @HystrixCommand(fallbackMethod = "getDefaultMessage")
+    public String getMessageFail() {
+        throw new RuntimeException("I failed on purpose");
+    }
+
     private String getMessageImpl() {
         ResponseEntity<Message> message = restTemplate.getForEntity("http://localhost:7080/hello", Message.class);
         return message.getBody().getBody();
