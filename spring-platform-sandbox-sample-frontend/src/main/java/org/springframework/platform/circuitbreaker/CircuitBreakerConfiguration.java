@@ -1,5 +1,6 @@
 package org.springframework.platform.circuitbreaker;
 
+import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,10 @@ public class CircuitBreakerConfiguration implements ImportAware {
 
     private AnnotationAttributes enableCircuitBreaker;
 
+    @Bean
+    HystrixCommandAspect hystrixCommandAspect() {
+        return new HystrixCommandAspect();
+    }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)

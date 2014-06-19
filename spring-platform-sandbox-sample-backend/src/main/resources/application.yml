@@ -1,2 +1,5 @@
 info:
   component: Platform Sample Backend
+
+server:
+  port: 7080
