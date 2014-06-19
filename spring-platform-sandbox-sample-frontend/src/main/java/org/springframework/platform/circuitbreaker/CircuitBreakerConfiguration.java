@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
+import org.springframework.platform.endpoint.HystrixStreamEndpoint;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
@@ -37,6 +38,12 @@ public class CircuitBreakerConfiguration implements ImportAware {
     public CircuitBreakerInterceptor circuitBreakerInterceptor() {
         CircuitBreakerInterceptor interceptor = new CircuitBreakerInterceptor();
         return interceptor;
+    }
+
+    @Bean
+    //TODO: add enable/disable
+    public HystrixStreamEndpoint hystrixStreamEndpoint() {
+        return new HystrixStreamEndpoint();
     }
 
     @Override

@@ -48,6 +48,7 @@
 	</prerequisites>
 	<properties>
 		<main.basedir>${basedir}</main.basedir>
+        <hystrix.version>1.4.0-RC4</hystrix.version>
 	</properties>
 	<build>
 		<pluginManagement>
@@ -90,6 +91,16 @@
                 <groupId>org.springframework.platform</groupId>
                 <artifactId>spring-platform-config-server</artifactId>
                 <version>1.0.0.BUILD-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-core</artifactId>
+                <version>${hystrix.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-metrics-event-stream</artifactId>
+                <version>${hystrix.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
