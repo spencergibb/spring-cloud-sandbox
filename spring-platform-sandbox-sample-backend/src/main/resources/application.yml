@@ -1,5 +1,9 @@
 info:
   component: Platform Sample Backend
+  
+endpoints:
+  restart:
+    enabled: true
 
 server:
   port: 7080
