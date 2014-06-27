@@ -23,7 +23,8 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(Map<String, Object> model) {
-        model.put("message", "Hello "+helloService.getMessage());
+        String message = helloService.sendMessage();
+        model.put("message", "Hello "+ message);
         values(model);
         return "home";
     }
@@ -54,6 +55,6 @@ public class HomeController {
         model.put("title", "Hello Home");
         model.put("date", new Date());
         //List<Post> posts = postClient.posts();
-        model.put("posts", new ArrayList<Object>());
+        model.put("posts", new ArrayList<>());
     }
 }

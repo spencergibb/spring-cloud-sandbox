@@ -48,6 +48,7 @@
 	</prerequisites>
 	<properties>
 		<main.basedir>${basedir}</main.basedir>
+        <feign.version>6.1.2</feign.version>
         <hystrix.version>1.4.0-RC4</hystrix.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
         <spring-platform.version>${pom.version}</spring-platform.version>
@@ -99,6 +100,16 @@
                 <artifactId>hystrix-javanica</artifactId>
                 <version>${hystrix.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
+            <!--<dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-slf4j</artifactId>
+                <version>${feign.version}</version>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 </project>

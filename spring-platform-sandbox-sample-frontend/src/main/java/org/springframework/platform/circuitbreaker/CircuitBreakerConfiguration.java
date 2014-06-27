@@ -2,11 +2,9 @@ package org.springframework.platform.circuitbreaker;
 
 import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
-import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
@@ -27,22 +25,6 @@ public class CircuitBreakerConfiguration implements ImportAware {
     @Bean
     HystrixCommandAspect hystrixCommandAspect() {
         return new HystrixCommandAspect();
-    }
-
-    @Bean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public CircuitBreakerAdvisor circuitBreakerAdvisor() {
-        CircuitBreakerAdvisor advisor = new CircuitBreakerAdvisor();
-        advisor.setAdvice(circuitBreakerInterceptor());
-        advisor.setOrder(this.enableCircuitBreaker.<Integer>getNumber("order"));
-        return advisor;
-    }
-
-    @Bean
-    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public CircuitBreakerInterceptor circuitBreakerInterceptor() {
-        CircuitBreakerInterceptor interceptor = new CircuitBreakerInterceptor();
-        return interceptor;
     }
 
     @Bean

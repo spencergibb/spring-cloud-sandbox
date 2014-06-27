@@ -4,8 +4,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.netflix.hystrix.contrib.javanica.command.ObservableResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.platform.circuitbreaker.annotations.CircuitBreaker;
 import org.springframework.platform.sample.backend.Message;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -21,10 +19,18 @@ public class HelloService {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    HelloClient helloClient;
+
     //@CircuitBreaker
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
     public String getMessage() {
         return getMessageImpl();
+    }
+
+    @HystrixCommand(fallbackMethod = "getDefaultMessage")
+    public String sendMessage() {
+        return helloClient.hello(new Message("World via POST")).getBody();
     }
 
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
@@ -48,13 +54,15 @@ public class HelloService {
     }
 
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
+    //TODO: setup hystrix to log errors by default
     public String getMessageFail() {
         throw new RuntimeException("I failed on purpose");
     }
 
     private String getMessageImpl() {
-        ResponseEntity<Message> message = restTemplate.getForEntity("http://localhost:7080/hello", Message.class);
-        return message.getBody().getBody();
+        /*ResponseEntity<Message> message = restTemplate.getForEntity("http://localhost:7080/hello", Message.class);
+        return message.getBody().getBody();*/
+        return helloClient.hello().getBody();
     }
 
     private String getDefaultMessage() {
