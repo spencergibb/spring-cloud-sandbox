@@ -1,17 +1,16 @@
 package org.springframework.platform.sample.frontend;
 
-import feign.Headers;
-import feign.RequestLine;
 import org.springframework.platform.sample.backend.Message;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by sgibb on 6/26/14.
  */
 public interface HelloClient {
-    @RequestLine("GET /hello")
+    @RequestMapping(method = RequestMethod.GET, value = "/hello")
     Message hello();
 
-    @RequestLine("POST /hello")
-    @Headers("Content-Type: application/json")
+    @RequestMapping(method = RequestMethod.POST, value = "/hello", consumes = "application/json")
     Message hello(Message message);
 }

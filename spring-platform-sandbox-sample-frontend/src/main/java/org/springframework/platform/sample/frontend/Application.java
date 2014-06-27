@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
 import org.springframework.platform.feign.SpringDecoder;
 import org.springframework.platform.feign.SpringEncoder;
+import org.springframework.platform.feign.SpringMvcContract;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -42,6 +43,7 @@ public class Application {
                 .decoder(springDecoder())
                 //.logger(new Slf4jLogger())
                 .logger(new Logger.JavaLogger())
+                .contract(new SpringMvcContract())
                 .target(HelloClient.class, "http://localhost:7080");
     }
 
