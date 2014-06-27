@@ -3,3 +3,7 @@ info:
 
 server:
   port: 9080
+
+exampleBackend:
+  ribbon:
+    listOfServers: localhost:7080
