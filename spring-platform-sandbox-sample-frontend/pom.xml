@@ -65,6 +65,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.netflix.archaius</groupId>
+            <artifactId>archaius-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.netflix.hystrix</groupId>
             <artifactId>hystrix-core</artifactId>
         </dependency>
@@ -79,6 +83,10 @@
         <dependency>
             <groupId>com.netflix.feign</groupId>
             <artifactId>feign-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.feign</groupId>
+            <artifactId>feign-ribbon</artifactId>
         </dependency>
         <!--<dependency>
             <groupId>com.netflix.feign</groupId>

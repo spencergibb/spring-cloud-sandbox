@@ -1,8 +1,10 @@
 package org.springframework.platform.sample.frontend;
 
+import com.netflix.config.ConfigurationManager;
 import feign.Feign;
 //import feign.slf4j.Slf4jLogger;
 import feign.Logger;
+import feign.ribbon.LoadBalancingTarget;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -37,14 +39,19 @@ public class Application {
 
     @Bean
     public HelloClient helloClient() {
-        //TODO: feign configuration
+        //TODO: feign/ribbon configuration
+
+        //TODO: build Spring env/archaius bridge
+        ConfigurationManager.getConfigInstance().setProperty("exampleBackend.ribbon.listOfServers", "localhost:7080");
+        //exampleBackend.ribbon.NIWSServerListClassName=my.package.MyServerList
         return Feign.builder()
                 .encoder(springEncoder())
                 .decoder(springDecoder())
                 //.logger(new Slf4jLogger())
                 .logger(new Logger.JavaLogger())
                 .contract(new SpringMvcContract())
-                .target(HelloClient.class, "http://localhost:7080");
+                //.target(HelloClient.class, "http://localhost:7080");
+                .target(LoadBalancingTarget.create(HelloClient.class, "http://exampleBackend"));
     }
 
     public static void main(String[] args) {

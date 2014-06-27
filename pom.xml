@@ -48,6 +48,7 @@
 	</prerequisites>
 	<properties>
 		<main.basedir>${basedir}</main.basedir>
+        <archaius.version>0.6.0</archaius.version>
         <feign.version>6.1.2</feign.version>
         <hystrix.version>1.4.0-RC4</hystrix.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
@@ -86,6 +87,11 @@
 				<scope>import</scope>
 			</dependency>
             <dependency>
+                <groupId>com.netflix.archaius</groupId>
+                <artifactId>archaius-core</artifactId>
+                <version>${archaius.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.netflix.hystrix</groupId>
                 <artifactId>hystrix-core</artifactId>
                 <version>${hystrix.version}</version>
@@ -103,6 +109,11 @@
             <dependency>
                 <groupId>com.netflix.feign</groupId>
                 <artifactId>feign-core</artifactId>
+                <version>${feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.feign</groupId>
+                <artifactId>feign-ribbon</artifactId>
                 <version>${feign.version}</version>
             </dependency>
             <!--<dependency>
