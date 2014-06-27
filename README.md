@@ -10,7 +10,7 @@ Code should migrate to a separate module and then to another project.
 - [x] Use platform config
 - [x] Hystrix integration (hystrix-javanica)
 - [x] Feign use spring message converters
-- [ ] Ribbon (static server list)
+- [x] Ribbon (static server list)
 - [ ] Eureka boot app (Service registration)
 - [ ] Ribbon (Client side load balancing) (Eureka integration)
 - [ ] Router (Zuul) integrated using hystrix/ribbon/eureka
