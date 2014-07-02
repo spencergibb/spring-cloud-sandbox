@@ -1,0 +1,3 @@
+org.springframework.context.ApplicationListener=\
+org.springframework.platform.eureka.EurekaRegistrationListener,\
+org.springframework.platform.eureka.EurekaRegistrationUpListener

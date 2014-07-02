@@ -11,3 +11,4 @@ bin
 *.sw*
 *.iml
 .idea
+*.pid

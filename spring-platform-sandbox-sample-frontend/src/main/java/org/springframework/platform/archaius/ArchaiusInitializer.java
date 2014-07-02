@@ -18,6 +18,7 @@ import static com.netflix.config.ConfigurationManager.ENV_CONFIG_NAME;
 /**
  * Created by sgibb on 6/27/14.
  */
+//TODO: move to event listener
 public class ArchaiusInitializer {
 
     @Autowired

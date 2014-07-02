@@ -11,8 +11,8 @@ Code should migrate to a separate module and then to another project.
 - [x] Hystrix integration (hystrix-javanica)
 - [x] Feign use spring message converters
 - [x] Ribbon (static server list)
-- [ ] Eureka boot app (Service registration)
-- [ ] Ribbon (Client side load balancing) (Eureka integration)
+- [x] Eureka boot app (Service registration)
+- [x] Ribbon (Client side load balancing) (Eureka integration)
 - [ ] Router (Zuul) integrated using hystrix/ribbon/eureka
 - [ ] Refresh log levels dynamically
 - [ ] Better observable example

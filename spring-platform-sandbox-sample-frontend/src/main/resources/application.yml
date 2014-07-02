@@ -1,9 +1,49 @@
 info:
   component: Platform Sample Frontend
 
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+
 server:
   port: 9080
 
-exampleBackend:
+samplebackendservice:
   ribbon:
-    listOfServers: localhost:7080
+    #listOfServers: localhost:7080
+    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+
+    # the eureka vipAddress of the target service (Disabled)
+    DeploymentContextBasedVipAddresses: samplebackendservice
+
+    # Max number of retries on the same server (excluding the first try)
+    MaxAutoRetries: 1
+
+    # Max number of next servers to retry (excluding the first server)
+    MaxAutoRetriesNextServer: 1
+
+    # Whether all operations can be retried for this client
+    OkToRetryOnAllOperations: true
+
+    # Interval to refresh the server list from the source
+    ServerListRefreshInterval: 2000
+
+    # Connect timeout used by Apache HttpClient
+    ConnectTimeout: 3000
+
+    # Read timeout used by Apache HttpClient
+    ReadTimeout: 3000
+
+
+# disable Ribbon's cicruit breaker and rely soley on Hystrix.
+# this helps to avoid confusion.
+# see https://github.com/Netflix/ribbon/issues/15
+niws:
+  loadbalancer:
+    availabilityFilteringRule:
+      filterCircuitTripped: false
+
+embeddedWar:
+  path: /eureka

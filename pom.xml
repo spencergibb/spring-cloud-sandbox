@@ -49,8 +49,10 @@
 	<properties>
 		<main.basedir>${basedir}</main.basedir>
         <archaius.version>0.6.0</archaius.version>
+        <eureka.version>1.1.134</eureka.version>
         <feign.version>6.1.2</feign.version>
         <hystrix.version>1.4.0-RC4</hystrix.version>
+        <ribbon.version>0.3.12</ribbon.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
         <spring-platform.version>${pom.version}</spring-platform.version>
 	</properties>
@@ -92,19 +94,9 @@
                 <version>${archaius.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.netflix.hystrix</groupId>
-                <artifactId>hystrix-core</artifactId>
-                <version>${hystrix.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.netflix.hystrix</groupId>
-                <artifactId>hystrix-metrics-event-stream</artifactId>
-                <version>${hystrix.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.netflix.hystrix</groupId>
-                <artifactId>hystrix-javanica</artifactId>
-                <version>${hystrix.version}</version>
+                <groupId>com.netflix.eureka</groupId>
+                <artifactId>eureka-client</artifactId>
+                <version>${eureka.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.netflix.feign</groupId>
@@ -121,6 +113,31 @@
                 <artifactId>feign-slf4j</artifactId>
                 <version>${feign.version}</version>
             </dependency>-->
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-core</artifactId>
+                <version>${hystrix.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-metrics-event-stream</artifactId>
+                <version>${hystrix.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.hystrix</groupId>
+                <artifactId>hystrix-javanica</artifactId>
+                <version>${hystrix.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-core</artifactId>
+                <version>${ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-eureka</artifactId>
+                <version>${ribbon.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

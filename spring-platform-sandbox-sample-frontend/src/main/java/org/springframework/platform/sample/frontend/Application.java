@@ -65,7 +65,7 @@ public class Application {
                 .logger(new Logger.JavaLogger())
                 .contract(new SpringMvcContract())
                 //.target(HelloClient.class, "http://localhost:7080");
-                .target(LoadBalancingTarget.create(HelloClient.class, "http://exampleBackend"));
+                .target(LoadBalancingTarget.create(HelloClient.class, "http://samplebackendservice"));
     }
 
     public static void main(String[] args) {
