@@ -1,9 +1,9 @@
-package org.springframework.platform.circuitbreaker.annotations;
+package org.springframework.platform.netflix.circuitbreaker.annotations;
 
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
-import org.springframework.platform.circuitbreaker.CircuitBreakerConfigurationSelector;
+import org.springframework.platform.netflix.circuitbreaker.CircuitBreakerConfigurationSelector;
 
 import java.lang.annotation.*;
 

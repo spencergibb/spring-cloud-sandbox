@@ -1,4 +1,4 @@
-package org.springframework.platform.archaius;
+package org.springframework.platform.netflix.archaius;
 
 import com.netflix.config.ConcurrentCompositeConfiguration;
 import com.netflix.config.ConfigurationManager;

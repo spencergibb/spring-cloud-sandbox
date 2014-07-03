@@ -1,4 +1,4 @@
-package org.springframework.platform.feign;
+package org.springframework.platform.netflix.feign;
 
 import feign.FeignException;
 import feign.Response;

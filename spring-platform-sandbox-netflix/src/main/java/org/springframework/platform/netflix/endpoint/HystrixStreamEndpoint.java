@@ -1,4 +1,4 @@
-package org.springframework.platform.endpoint;
+package org.springframework.platform.netflix.endpoint;
 
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 

@@ -1,4 +1,4 @@
-package org.springframework.platform.endpoint;
+package org.springframework.platform.netflix.endpoint;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;

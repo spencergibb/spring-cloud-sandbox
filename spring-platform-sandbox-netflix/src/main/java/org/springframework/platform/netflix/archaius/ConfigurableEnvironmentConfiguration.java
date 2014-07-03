@@ -1,4 +1,4 @@
-package org.springframework.platform.archaius;
+package org.springframework.platform.netflix.archaius;
 
 import org.apache.commons.configuration.AbstractConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,9 @@
-package org.springframework.platform.circuitbreaker;
+package org.springframework.platform.netflix.circuitbreaker;
 
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.AdviceModeImportSelector;
 import org.springframework.context.annotation.AutoProxyRegistrar;
-import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
+import org.springframework.platform.netflix.circuitbreaker.annotations.EnableCircuitBreaker;
 
 /**
  * Created by sgibb on 6/19/14.

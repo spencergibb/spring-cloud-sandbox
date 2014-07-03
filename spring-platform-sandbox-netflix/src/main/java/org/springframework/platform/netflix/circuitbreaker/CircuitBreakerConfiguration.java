@@ -1,4 +1,4 @@
-package org.springframework.platform.circuitbreaker;
+package org.springframework.platform.netflix.circuitbreaker;
 
 import com.netflix.hystrix.contrib.javanica.aop.aspectj.HystrixCommandAspect;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
-import org.springframework.platform.endpoint.HystrixStreamEndpoint;
+import org.springframework.platform.netflix.circuitbreaker.annotations.EnableCircuitBreaker;
+import org.springframework.platform.netflix.endpoint.HystrixStreamEndpoint;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 

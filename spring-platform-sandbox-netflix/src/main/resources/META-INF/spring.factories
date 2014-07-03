@@ -1,0 +1,4 @@
+org.springframework.context.ApplicationListener=\
+org.springframework.platform.netflix.eureka.EurekaStartingListener,\
+org.springframework.platform.netflix.eureka.EurekaUpListener,\
+org.springframework.platform.netflix.eureka.EurekaOutOfServiceListener

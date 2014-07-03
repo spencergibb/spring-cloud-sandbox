@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.platform.archaius.ArchaiusInitializer;
-import org.springframework.platform.archaius.ConfigurableEnvironmentConfiguration;
-import org.springframework.platform.circuitbreaker.annotations.EnableCircuitBreaker;
-import org.springframework.platform.feign.SpringDecoder;
-import org.springframework.platform.feign.SpringEncoder;
-import org.springframework.platform.feign.SpringMvcContract;
+import org.springframework.platform.netflix.archaius.ArchaiusInitializer;
+import org.springframework.platform.netflix.archaius.ConfigurableEnvironmentConfiguration;
+import org.springframework.platform.netflix.circuitbreaker.annotations.EnableCircuitBreaker;
+import org.springframework.platform.netflix.feign.SpringDecoder;
+import org.springframework.platform.netflix.feign.SpringEncoder;
+import org.springframework.platform.netflix.feign.SpringMvcContract;
 import org.springframework.web.client.RestTemplate;
 
 //import feign.slf4j.Slf4jLogger;

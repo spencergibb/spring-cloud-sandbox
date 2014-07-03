@@ -10,6 +10,7 @@ endpoints:
 server:
   port: 9080
 
+#TODO: set all this as defaults during autoconfigure
 samplebackendservice:
   ribbon:
     #listOfServers: localhost:7080

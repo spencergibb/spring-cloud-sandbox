@@ -1,4 +1,4 @@
-package org.springframework.platform.circuitbreaker;
+package org.springframework.platform.netflix.circuitbreaker;
 
 /**
  * Created by sgibb on 6/19/14.
