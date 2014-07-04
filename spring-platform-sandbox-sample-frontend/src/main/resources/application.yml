@@ -14,7 +14,7 @@ server:
 samplebackendservice:
   ribbon:
     #listOfServers: localhost:7080
-    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
+    #NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
 
     # the eureka vipAddress of the target service (Disabled)
     DeploymentContextBasedVipAddresses: samplebackendservice
@@ -45,6 +45,3 @@ niws:
   loadbalancer:
     availabilityFilteringRule:
       filterCircuitTripped: false
-
-embeddedWar:
-  path: /eureka

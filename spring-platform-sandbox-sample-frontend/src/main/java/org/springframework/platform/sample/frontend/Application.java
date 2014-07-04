@@ -8,11 +8,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.platform.netflix.archaius.ArchaiusInitializer;
-import org.springframework.platform.netflix.archaius.ConfigurableEnvironmentConfiguration;
 import org.springframework.platform.netflix.circuitbreaker.annotations.EnableCircuitBreaker;
-import org.springframework.platform.netflix.feign.SpringDecoder;
-import org.springframework.platform.netflix.feign.SpringEncoder;
+import org.springframework.platform.netflix.feign.FeignConfigurer;
 import org.springframework.platform.netflix.feign.SpringMvcContract;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableCircuitBreaker
-public class Application {
+public class Application extends FeignConfigurer {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -30,42 +27,8 @@ public class Application {
     }
 
     @Bean
-    SpringDecoder springDecoder() {
-        return new SpringDecoder();
-    }
-
-    @Bean
-    SpringEncoder springEncoder() {
-        return new SpringEncoder();
-    }
-
-    @Bean
-    ConfigurableEnvironmentConfiguration configurableEnvironmentConfiguration() {
-        return new ConfigurableEnvironmentConfiguration();
-    }
-
-    //TODO: move to some other configuration or initializer
-    @Bean
-    ArchaiusInitializer archaiusInitializer() {
-        return new ArchaiusInitializer();
-    }
-
-    @Bean
     public HelloClient helloClient() {
-        archaiusInitializer(); //TODO: enforce order
-
-        //TODO: feign/ribbon configuration
-
-        //ConfigurationManager.getConfigInstance().setProperty("exampleBackend.ribbon.listOfServers", "localhost:7080");
-        //exampleBackend.ribbon.NIWSServerListClassName=my.package.MyServerList
-        return Feign.builder()
-                .encoder(springEncoder())
-                .decoder(springDecoder())
-                //.logger(new Slf4jLogger())
-                .logger(new Logger.JavaLogger())
-                .contract(new SpringMvcContract())
-                //.target(HelloClient.class, "http://localhost:7080");
-                .target(LoadBalancingTarget.create(HelloClient.class, "http://samplebackendservice"));
+        return loadBalance(HelloClient.class, "http://samplebackendservice");
     }
 
     public static void main(String[] args) {

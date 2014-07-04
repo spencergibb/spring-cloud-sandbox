@@ -12,8 +12,11 @@ import java.util.*;
  * Created by sgibb on 6/27/14.
  */
 public class ConfigurableEnvironmentConfiguration extends AbstractConfiguration {
-    @Autowired
     ConfigurableEnvironment environment;
+
+    public ConfigurableEnvironmentConfiguration(ConfigurableEnvironment environment) {
+        this.environment = environment;
+    }
 
     @Override
     protected void addPropertyDirect(String key, Object value) {

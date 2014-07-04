@@ -6,9 +6,9 @@ import com.netflix.config.DynamicURLConfiguration;
 import org.apache.commons.configuration.EnvironmentConfiguration;
 import org.apache.commons.configuration.SystemConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-import javax.annotation.PostConstruct;
 
 import static com.netflix.config.ConfigurationBasedDeploymentContext.DEPLOYMENT_APPLICATION_ID_PROPERTY;
 import static com.netflix.config.ConfigurationManager.*;
@@ -16,19 +16,22 @@ import static com.netflix.config.ConfigurationManager.APPLICATION_PROPERTIES;
 import static com.netflix.config.ConfigurationManager.ENV_CONFIG_NAME;
 
 /**
- * Created by sgibb on 6/27/14.
+ * Created by sgibb on 7/3/14.
  */
-//TODO: move to event listener
-public class ArchaiusInitializer {
+@Configuration
+public class ArchaiusAutoConfiguration {
 
     @Autowired
     ConfigurableEnvironment env;
 
-    @Autowired
-    ConfigurableEnvironmentConfiguration envConfig;
+    @Bean
+    ConfigurableEnvironmentConfiguration configurableEnvironmentConfiguration() {
+        ConfigurableEnvironmentConfiguration envConfig = new ConfigurableEnvironmentConfiguration(env);
+        configureArchaius(envConfig);
+        return envConfig;
+    }
 
-    @PostConstruct
-    public void init() {
+    protected void configureArchaius(ConfigurableEnvironmentConfiguration envConfig) {
         String appName = env.getProperty("spring.application.name");
         if (appName == null) {
             throw new IllegalStateException("spring.application.name may not be null");
@@ -62,8 +65,8 @@ public class ArchaiusInitializer {
             config.addConfiguration(sysConfig, SYS_CONFIG_NAME);
         }
         if (!Boolean.getBoolean(DISABLE_DEFAULT_ENV_CONFIG)) {
-            EnvironmentConfiguration envConfig = new EnvironmentConfiguration();
-            config.addConfiguration(envConfig, ENV_CONFIG_NAME);
+            EnvironmentConfiguration environmentConfiguration = new EnvironmentConfiguration();
+            config.addConfiguration(environmentConfiguration, ENV_CONFIG_NAME);
         }
 
         ConcurrentCompositeConfiguration appOverrideConfig = new ConcurrentCompositeConfiguration();
