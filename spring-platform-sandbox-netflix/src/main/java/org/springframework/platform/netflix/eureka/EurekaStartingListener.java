@@ -8,7 +8,9 @@ import com.netflix.discovery.DiscoveryManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.platform.util.RunOnceApplicationListener;
 
 /**
@@ -27,14 +29,22 @@ public class EurekaStartingListener extends RunOnceApplicationListener<Applicati
 
     @Override
     public void onApplicationEventInternal(ApplicationEnvironmentPreparedEvent event) {
+        ConfigurableEnvironment environment = event.getEnvironment();
+        //TODO: is there a way to not explicitly check for this here?
+        // don't listen to events in a bootstrap context
+        if (environment.getPropertySources().contains("bootstrap")) {
+            return;
+        }
         try {
             // Register with Eureka
             DiscoveryManager.getInstance().initComponent(
-                    //TODO: create datacenter config that reads from environment
-                    // this will eliminate the need for sample-backend-eureka.properties
-                    new MyDataCenterInstanceConfig(),
-                    //TODO: create client config that reads from environment
-                    new DefaultEurekaClientConfig());
+                    //instance config that reads from environment
+                    // this eliminates the need for eureka.properties
+                    new EnvironmentEurekaInstanceConfig(event.getEnvironment()),
+                    //new MyDataCenterInstanceConfig(),
+                    //client config that reads from environment
+                    new EnvironmentEurekaClientConfig(event.getEnvironment()));
+                    //new DefaultEurekaClientConfig());
 
             // A good practice is to register as STARTING and only change status to UP
             // after the service is ready to receive traffic
