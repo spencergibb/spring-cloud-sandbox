@@ -9,3 +9,11 @@ endpoints:
 
 server:
   port: 7080
+
+logging:
+  level: INFO
+
+logging:
+  level:
+    com:
+      netflix: WARN

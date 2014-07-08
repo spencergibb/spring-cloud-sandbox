@@ -4,8 +4,8 @@ import com.google.common.base.Charsets;
 import feign.RequestTemplate;
 import feign.codec.EncodeException;
 import feign.codec.Encoder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by sgibb on 6/26/14.
  */
 public class SpringEncoder extends FeignBase implements Encoder {
-    protected final Log logger = LogFactory.getLog(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(SpringEncoder.class);
 
     public SpringEncoder() {
     }

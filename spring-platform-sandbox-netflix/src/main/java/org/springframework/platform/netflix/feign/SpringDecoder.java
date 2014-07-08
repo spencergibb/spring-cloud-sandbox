@@ -4,8 +4,8 @@ import feign.FeignException;
 import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -21,7 +21,7 @@ import java.util.List;
  * Created by sgibb on 6/26/14.
  */
 public class SpringDecoder extends FeignBase implements Decoder {
-    protected final Log logger = LogFactory.getLog(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(SpringDecoder.class);
 
     public SpringDecoder() {
     }

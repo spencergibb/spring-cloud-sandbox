@@ -2,8 +2,8 @@ package org.springframework.platform.netflix.eureka;
 
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.InstanceInfo;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
 import org.springframework.core.Ordered;
 import org.springframework.platform.util.RunOnceApplicationListener;
@@ -14,7 +14,7 @@ import org.springframework.platform.util.RunOnceApplicationListener;
 public class EurekaUpListener extends RunOnceApplicationListener<EmbeddedServletContainerInitializedEvent>
         implements Ordered {
 
-    private static final Log logger = LogFactory.getLog(EurekaUpListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(EurekaUpListener.class);
 
     private int order = Ordered.HIGHEST_PRECEDENCE + 17;
 

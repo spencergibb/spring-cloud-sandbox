@@ -1,11 +1,15 @@
 package org.springframework.platform.sample.frontend;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -56,5 +60,18 @@ public class HomeController {
         model.put("date", new Date());
         //List<Post> posts = postClient.posts();
         model.put("posts", new ArrayList<>());
+    }
+
+    @RequestMapping("/loglevels")
+    @ResponseBody
+    public Map<String, Object> loglevels() {
+        LinkedHashMap<String, Object> map = new LinkedHashMap<>();
+        Logger logger = LoggerFactory.getLogger("loglevels");
+        map.put("trace", logger.isTraceEnabled());
+        map.put("debug", logger.isDebugEnabled());
+        map.put("info",  logger.isInfoEnabled());
+        map.put("warn",  logger.isWarnEnabled());
+        map.put("error", logger.isErrorEnabled());
+        return map;
     }
 }

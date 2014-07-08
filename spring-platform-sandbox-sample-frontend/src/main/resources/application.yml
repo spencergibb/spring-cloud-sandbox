@@ -45,3 +45,11 @@ niws:
   loadbalancer:
     availabilityFilteringRule:
       filterCircuitTripped: false
+
+logging:
+  level: INFO
+
+logging:
+  level:
+    com:
+      netflix: WARN
