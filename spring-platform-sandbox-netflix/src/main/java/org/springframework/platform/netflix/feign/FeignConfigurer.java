@@ -56,6 +56,7 @@ public class FeignConfigurer {
 
     public static void setServiceListClass(String serviceId) {
         setProp(serviceId, "NIWSServerListClassName", DiscoveryEnabledNIWSServerList.class.getName());
+        setProp(serviceId, "DeploymentContextBasedVipAddresses", serviceId); //FIXME: what should this be?
     }
 
     private static void setProp(String serviceId, String suffix, String value) {

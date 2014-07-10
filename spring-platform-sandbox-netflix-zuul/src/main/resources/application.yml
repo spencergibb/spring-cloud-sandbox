@@ -1,5 +1,5 @@
 info:
-  component: Platform Sample Backend
+  component: Platform Router (Zuul)
   
 endpoints:
   restart:
@@ -8,7 +8,7 @@ endpoints:
     enabled: true
 
 server:
-  port: 7080
+  port: 6080
 
 logging:
   level: INFO
@@ -25,10 +25,10 @@ eureka:
   region: default
 
   #Name of the application to be identified by other services (TODO: default using spring)
-  name: samplebackendservice
+  name: zuul
 
   #Virtual host name by which the clients identifies this service
-  vipAddress: samplebackendservice
+  vipAddress: zuul
 
   #The port where the service will be running and serving requests (TODO: default using spring)
   #port: 7080

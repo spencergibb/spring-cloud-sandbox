@@ -16,6 +16,7 @@
 	</parent>
 	<modules>
         <module>spring-platform-sandbox-netflix</module>
+        <module>spring-platform-sandbox-netflix-zuul</module>
         <module>spring-platform-sandbox-sample-backend</module>
         <module>spring-platform-sandbox-sample-frontend</module>
 	</modules>
@@ -56,6 +57,7 @@
         <ribbon.version>0.3.12</ribbon.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
         <spring-platform.version>${pom.version}</spring-platform.version>
+        <zuul.version>1.0.24</zuul.version>
 	</properties>
 	<build>
 		<pluginManagement>
@@ -136,8 +138,18 @@
             </dependency>
             <dependency>
                 <groupId>com.netflix.ribbon</groupId>
+                <artifactId>ribbon-httpclient</artifactId>
+                <version>${ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.ribbon</groupId>
                 <artifactId>ribbon-eureka</artifactId>
                 <version>${ribbon.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.netflix.zuul</groupId>
+                <artifactId>zuul-core</artifactId>
+                <version>${zuul.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

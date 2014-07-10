@@ -2,13 +2,10 @@ package org.springframework.platform.netflix.eureka;
 
 import com.netflix.appinfo.ApplicationInfoManager;
 import com.netflix.appinfo.InstanceInfo;
-import com.netflix.appinfo.MyDataCenterInstanceConfig;
-import com.netflix.discovery.DefaultEurekaClientConfig;
 import com.netflix.discovery.DiscoveryManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.platform.util.RunOnceApplicationListener;
@@ -38,12 +35,11 @@ public class EurekaStartingListener extends RunOnceApplicationListener<Applicati
         try {
             // Register with Eureka
             DiscoveryManager.getInstance().initComponent(
-                    //instance config that reads from environment
-                    // this eliminates the need for eureka.properties
-                    new EnvironmentEurekaInstanceConfig(event.getEnvironment()),
+                    //instance config that reads from environment this eliminates the need for eureka.properties
+                    new EnvironmentEurekaInstanceConfig(environment),
                     //new MyDataCenterInstanceConfig(),
                     //client config that reads from environment
-                    new EnvironmentEurekaClientConfig(event.getEnvironment()));
+                    new EnvironmentEurekaClientConfig(environment));
                     //new DefaultEurekaClientConfig());
 
             // A good practice is to register as STARTING and only change status to UP

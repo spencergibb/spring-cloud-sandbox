@@ -2,6 +2,7 @@ package org.springframework.platform.netflix.feign;
 
 import feign.Contract;
 import feign.Logger;
+import feign.Slf4jLogger;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -17,7 +17,7 @@ samplebackendservice:
     #NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
 
     # the eureka vipAddress of the target service (Disabled)
-    DeploymentContextBasedVipAddresses: samplebackendservice
+    #DeploymentContextBasedVipAddresses: samplebackendservice
 
     # Max number of retries on the same server (excluding the first try)
     MaxAutoRetries: 1
@@ -46,7 +46,7 @@ eureka:
   name: samplefrontendservice
 
   #Virtual host name by which the clients identifies this service
-  vipAddress: samplefrontendservice.mydomain.net
+  vipAddress: samplefrontendservice
 
   #The port where the service will be running and serving requests (TODO: default using spring)
   #port: 9080
