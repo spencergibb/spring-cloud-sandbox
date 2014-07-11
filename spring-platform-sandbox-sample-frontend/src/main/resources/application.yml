@@ -50,8 +50,8 @@ eureka:
       availabilityZones: default
 
     serviceUrl:
-      default: http://localhost:8080/v2/
-      defaultZone: http://localhost:8080/v2/
+      default: http://localhost:8080/eureka/v2/
+      defaultZone: http://localhost:8080/eureka/v2/
 
   instance:
     #Virtual host name by which the clients identifies this service
