@@ -47,7 +47,8 @@ eureka:
     availabilityZones: default
 
   serviceUrl:
-    default: http://localhost/eureka/v2/
+    #default: http://localhost/eureka/v2/
+    default: http://localhost:8080/v2/
 
   healthCheckUrlPath: /health
 
