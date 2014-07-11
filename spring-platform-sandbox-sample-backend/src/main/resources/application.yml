@@ -20,33 +20,22 @@ logging:
 
 
 eureka:
-  #Region where eureka is deployed -For AWS specify one of the AWS regions, for other datacenters specify a arbitrary string
-  #indicating the region.This is normally specified as a -D option (eg) -Deureka.region=us-east-1
-  region: default
+  client:
+    #Region where eureka is deployed -For AWS specify one of the AWS regions, for other datacenters specify a arbitrary string
+    #indicating the region.
+    region: default
 
-  #Name of the application to be identified by other services (TODO: default using spring)
-  name: samplebackendservice
 
-  #Virtual host name by which the clients identifies this service
-  vipAddress: samplebackendservice
+    #For eureka clients running in eureka server, it needs to connect to servers in other zones
+    preferSameZone: false
 
-  #The port where the service will be running and serving requests (TODO: default using spring)
-  #port: 7080
+    us-east-1:
+      availabilityZones: default
 
-  #For eureka clients running in eureka server, it needs to connect to servers in other zones
-  preferSameZone: false
+    serviceUrl:
+      default: http://localhost:8080/v2/
+      defaultZone: http://localhost:8080/v2/
 
-  #Change this if you want to use a DNS based lookup for determining other eureka servers. For example
-  #of specifying the DNS entries, check the eureka-client-test.properties, eureka-client-prod.properties
-  shouldUseDns: false
-
-  us-east-1:
-    availabilityZones: default
-
-  serviceUrl:
-    #default: http://localhost/eureka/v2/
-    default: http://localhost:8080/v2/
-
-  healthCheckUrlPath: /health
-
-  statusPageUrlPath: /info
+  instance:
+    #Virtual host name by which the clients identifies this service
+    virtualHostName: ${spring.application.name}

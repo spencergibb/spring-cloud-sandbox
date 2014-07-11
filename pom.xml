@@ -16,7 +16,6 @@
 	</parent>
 	<modules>
         <module>spring-platform-sandbox-netflix</module>
-        <module>spring-platform-sandbox-netflix-zuul</module>
         <module>spring-platform-sandbox-sample-backend</module>
         <module>spring-platform-sandbox-sample-frontend</module>
 	</modules>
@@ -55,9 +54,10 @@
         <feign.version>6.1.2</feign.version>
         <hystrix.version>1.4.0-RC4</hystrix.version>
         <ribbon.version>0.3.12</ribbon.version>
+        <zuul.version>1.0.24</zuul.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
         <spring-platform.version>${pom.version}</spring-platform.version>
-        <zuul.version>1.0.24</zuul.version>
+        <spring-platform-netflix.version>1.0.0.BUILD-SNAPSHOT</spring-platform-netflix.version>
 	</properties>
 	<build>
 		<pluginManagement>
@@ -91,6 +91,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+            <dependency>
+                <groupId>org.springframework.platform</groupId>
+                <artifactId>spring-platform-netflix-core</artifactId>
+                <version>${spring-platform-netflix.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.netflix.archaius</groupId>
                 <artifactId>archaius-core</artifactId>
