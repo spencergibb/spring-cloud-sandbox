@@ -10,6 +10,9 @@ endpoints:
 server:
   port: 6080
 
+management:
+  port: 6081
+
 logging:
   level: INFO
 

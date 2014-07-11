@@ -7,6 +7,7 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.platform.netflix.endpoint.HystrixStreamEndpoint;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
@@ -37,6 +38,16 @@ public class Application {
         filterRegistrationBean.setUrlPatterns(urlPatterns);
 
         return filterRegistrationBean;
+    }
+
+    @Bean
+    HystrixStreamEndpoint hystrixStreamEndpoint() {
+        return new HystrixStreamEndpoint();
+    }
+
+    @Bean
+    Routes routes() {
+        return new Routes();
     }
 
     @Bean

@@ -3,6 +3,7 @@ package filters.pre
 import com.netflix.zuul.context.RequestContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.platform.netflix.zuul.Routes
 import org.springframework.platform.netflix.zuul.SpringFilter
 
 class PreDecorationFilter extends SpringFilter {
@@ -29,9 +30,17 @@ class PreDecorationFilter extends SpringFilter {
 
         def requestURI = ctx.getRequest().getRequestURI()
 
-        //FIXME: hard coded to sample frontend
-        def serviceId = "samplefrontendservice";
-        //if (requestURI.startsWith(path)) {
+        Routes routes = getBean(Routes.class)
+
+        def routesMap = routes.getRoutes()
+        def route = routesMap.keySet().find { path ->
+            //TODO: use ant matchers?
+            if (requestURI.startsWith(path)) {
+                return true
+            }
+            return false
+        }
+        def serviceId = routesMap.get(route)
 
         if (serviceId != null) {
             // set serviceId for use in filters.route.RibbonRequest
