@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -26,38 +27,39 @@ public class HomeController {
     FrontendProperties frontendProperties;
 
     @RequestMapping("/")
-    public String home(Map<String, Object> model) {
+    public String home(Map<String, Object> model, HttpServletRequest req) {
         String message = helloService.sendMessage();
         model.put("message", "Hello "+ message);
-        values(model);
+        values(model, req);
         return "home";
     }
 
     @RequestMapping("/future")
-    public String future(Map<String, Object> model) throws ExecutionException, InterruptedException {
+    public String future(Map<String, Object> model, HttpServletRequest req) throws ExecutionException, InterruptedException {
         model.put("message", "Hello Future "+helloService.getMessageFuture().get());
-        values(model);
+        values(model, req);
         return "home";
     }
 
     @RequestMapping("/rx")
-    public String rx(Map<String, Object> model)  {
+    public String rx(Map<String, Object> model, HttpServletRequest req)  {
         model.put("message", "Hello Observable "+helloService.getMessageRx().toBlockingObservable().first());
-        values(model);
+        values(model, req);
         return "home";
     }
 
     @RequestMapping("/fail")
-    public String fail(Map<String, Object> model) {
+    public String fail(Map<String, Object> model, HttpServletRequest req) {
         model.put("message", "Hello "+helloService.getMessageFail());
-        values(model);
+        values(model, req);
         return "home";
     }
 
-    private void values(Map<String, Object> model) {
+    private void values(Map<String, Object> model, HttpServletRequest req) {
         model.put("foo", frontendProperties.getFoo());
         model.put("title", "Hello Home");
         model.put("date", new Date());
+        model.put("port", req.getLocalPort());
         //List<Post> posts = postClient.posts();
         model.put("posts", new ArrayList<>());
     }
