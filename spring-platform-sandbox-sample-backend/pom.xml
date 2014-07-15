@@ -24,11 +24,11 @@
     </build>
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.platform</groupId>
             <artifactId>spring-platform-sandbox-netflix</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.springframework.platform</groupId>
             <artifactId>spring-platform-netflix-core</artifactId>
@@ -58,6 +58,12 @@
         <dependency>
             <groupId>com.netflix.eureka</groupId>
             <artifactId>eureka-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
