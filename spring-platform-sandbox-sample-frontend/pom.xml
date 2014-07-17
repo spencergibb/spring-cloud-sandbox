@@ -35,6 +35,11 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.platform</groupId>
+            <artifactId>spring-platform-sandbox-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.platform</groupId>
             <artifactId>spring-platform-sandbox-sample-backend</artifactId>
             <version>${project.version}</version>
         </dependency>

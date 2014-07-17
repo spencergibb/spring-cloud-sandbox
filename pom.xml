@@ -15,7 +15,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<modules>
-        <!--<module>spring-platform-sandbox-netflix</module>-->
+        <module>spring-platform-sandbox-core</module>
         <module>spring-platform-sandbox-sample-backend</module>
         <module>spring-platform-sandbox-sample-frontend</module>
 	</modules>
@@ -56,9 +56,16 @@
         <ribbon.version>0.3.12</ribbon.version>
         <zuul.version>1.0.24</zuul.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
-        <spring-platform.version>${pom.version}</spring-platform.version>
+        <spring-platform.version>${project.version}</spring-platform.version>
         <spring-platform-netflix.version>1.0.0.BUILD-SNAPSHOT</spring-platform-netflix.version>
 	</properties>
+    <repositories>
+        <repository>
+            <id>repository.springframework.maven.snapshot</id>
+            <name>Spring Framework Maven Snapshot Repository</name>
+            <url>http://repo.spring.io/libs-milestone</url>
+        </repository>
+    </repositories>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -161,6 +168,16 @@
                 <groupId>com.netflix.zuul</groupId>
                 <artifactId>zuul-core</artifactId>
                 <version>${zuul.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-java-dsl</artifactId>
+                <version>1.0.0.M2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-amqp</artifactId>
+                <version>4.0.3.RELEASE</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

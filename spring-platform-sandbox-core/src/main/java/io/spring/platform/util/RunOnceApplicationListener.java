@@ -1,4 +1,4 @@
-package org.springframework.platform.util;
+package io.spring.platform.util;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
