@@ -8,8 +8,11 @@ import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
@@ -34,11 +37,26 @@ public class AmqpBusAutoConfiguration {
     @Autowired
     private AmqpAdmin amqpAdmin;
 
+    @Autowired
+    private ConfigurableEnvironment env;
+
     @Autowired(required = false)
     private RefreshEndpoint refreshEndpoint;
 
     @Autowired(required = false)
     private RestartEndpoint restartEndpoint;
+    private int port;
+
+    //TODO: how to fail gracefully if no rabbit?
+    @Bean
+    ApplicationListener<EmbeddedServletContainerInitializedEvent> servletInitListener() {
+        return new ApplicationListener<EmbeddedServletContainerInitializedEvent>() {
+            @Override
+            public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
+                port = event.getEmbeddedServletContainer().getPort();
+            }
+        };
+    }
 
     @Bean
     protected FanoutExchange platformBusExchange() {
@@ -56,9 +74,17 @@ public class AmqpBusAutoConfiguration {
     }
 
     @Bean
-    public IntegrationFlow platformBusFlow() {
-        return IntegrationFlows.from(Amqp.inboundGateway(connectionFactory, localPlatformBusQueue().getName()))
+    public IntegrationFlow platformBusFlow(ConfigurableEnvironment env) {
+        //TODO: use dave's amqp rest bridge
+        /*String hostname = env.getProperty("eureka.instance.hostname", "localhost"); //TODO: server.address?
+        String refreshId = env.getProperty("endpoints.refresh.id", "refresh");
+        String protocol = "http"; //TODO: how to determine https?
+        String uri = String.format("%s://%s:%s/%s", protocol, hostname, port, refreshId);
+        HttpRequestExecutingMessageHandler messageHandler = new HttpRequestExecutingMessageHandler(uri);
+        messageHandler.setExpectReply(false);*/
+        return IntegrationFlows.from(Amqp.inboundAdapter(connectionFactory, localPlatformBusQueue().getName()))
             .transform(Transformers.fromJson(String.class))
+            //.handle(messageHandler)
             .handle(String.class, new GenericHandler<String>() {
                 @Override
                 public Object handle(String p, Map<String, Object> headers) {

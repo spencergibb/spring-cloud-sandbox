@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.platform.logging.LoggingListener;
-import org.springframework.platform.netflix.circuitbreaker.annotations.EnableCircuitBreaker;
+import org.springframework.platform.netflix.eureka.EnableEurekaClient;
 import org.springframework.platform.netflix.feign.FeignConfigurer;
+import org.springframework.platform.netflix.hystrix.annotations.EnableHystrix;
 import org.springframework.web.client.RestTemplate;
 
 //import feign.slf4j.Slf4jLogger;
@@ -15,7 +16,8 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-@EnableCircuitBreaker
+@EnableHystrix
+@EnableEurekaClient
 public class Application extends FeignConfigurer {
 
     @Bean
