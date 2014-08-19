@@ -18,12 +18,6 @@ logging:
     com:
       netflix: WARN
 
-spring:
-  platform:
-    bus:
-      producer: true
-      consumer: false
-
 eureka:
   client:
     #Region where eureka is deployed -For AWS specify one of the AWS regions, for other datacenters specify a arbitrary string

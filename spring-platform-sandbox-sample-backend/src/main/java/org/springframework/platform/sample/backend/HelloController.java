@@ -1,6 +1,6 @@
 package org.springframework.platform.sample.backend;
 
-import io.spring.platform.bus.amqp.TestRemoteApplicationEvent;
+import io.spring.platform.bus.amqp.RemoteApplicationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,8 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     public Message sendMessage(@RequestBody Message message) {
-        context.publishEvent(new TestRemoteApplicationEvent(this, message.getBody()));
+        String appName = context.getEnvironment().getProperty("spring.application.name");
+        context.publishEvent(new RemoteApplicationEvent(this, appName, message.getBody()));
         return message;
     }
 }
