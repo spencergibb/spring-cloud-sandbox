@@ -7,22 +7,22 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
-import org.springframework.integration.dsl.support.GenericHandler;
-import org.springframework.integration.dsl.support.Transformers;
+import org.springframework.integration.event.inbound.ApplicationEventListeningMessageProducer;
+import org.springframework.integration.event.outbound.ApplicationEventPublishingMessageHandler;
 import org.springframework.platform.config.client.RefreshEndpoint;
 import org.springframework.platform.context.restart.RestartEndpoint;
-
-import java.util.Arrays;
-import java.util.Map;
 
 /**
  * @author Spencer Gibb
@@ -36,6 +36,9 @@ public class AmqpBusAutoConfiguration {
 
     @Autowired
     private AmqpAdmin amqpAdmin;
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
     private ConfigurableEnvironment env;
@@ -74,32 +77,29 @@ public class AmqpBusAutoConfiguration {
     }
 
     @Bean
-    public IntegrationFlow platformBusFlow(ConfigurableEnvironment env) {
-        //TODO: use dave's amqp rest bridge
-        /*String hostname = env.getProperty("eureka.instance.hostname", "localhost"); //TODO: server.address?
-        String refreshId = env.getProperty("endpoints.refresh.id", "refresh");
-        String protocol = "http"; //TODO: how to determine https?
-        String uri = String.format("%s://%s:%s/%s", protocol, hostname, port, refreshId);
-        HttpRequestExecutingMessageHandler messageHandler = new HttpRequestExecutingMessageHandler(uri);
-        messageHandler.setExpectReply(false);*/
+    @ConditionalOnExpression("${spring.platform.bus.producer:false}")
+    public ApplicationEventListeningMessageProducer platformBusProducer() {
+        ApplicationEventListeningMessageProducer producer = new ApplicationEventListeningMessageProducer();
+        producer.setEventTypes(TestRemoteApplicationEvent.class);
+        producer.setOutputChannel(new DirectChannel()); //FIXME: hack
+        return producer;
+    }
+
+    @Bean
+    @ConditionalOnExpression("${spring.platform.bus.producer:false}")
+    public IntegrationFlow platformBusOutboundFlow() {
+        return IntegrationFlows.from(platformBusProducer())
+                .handle(Amqp.outboundAdapter(this.rabbitTemplate)
+                    .exchangeName("spring.platform.bus"))
+                .get();
+    }
+
+    @Bean
+    @ConditionalOnExpression("${spring.platform.bus.consumer:true}")
+    public IntegrationFlow platformBusInboundFlow() {
+        ApplicationEventPublishingMessageHandler messageHandler = new ApplicationEventPublishingMessageHandler();
         return IntegrationFlows.from(Amqp.inboundAdapter(connectionFactory, localPlatformBusQueue().getName()))
-            .transform(Transformers.fromJson(String.class))
-            //.handle(messageHandler)
-            .handle(String.class, new GenericHandler<String>() {
-                @Override
-                public Object handle(String p, Map<String, Object> headers) {
-                    System.out.println(p);
-                    if (refreshEndpoint != null && "refresh".equals(p)) {
-                        String[] refreshed = refreshEndpoint.refresh();
-                        logger.info("The following configuration keys were refreshed {}", Arrays.asList(refreshed));
-                    } else if (restartEndpoint != null && "restart".equals(p)) {
-                        //TODO: restart doesn't let this message get ack'ed so it keeps reading the message, run in Thread?
-                        //ConfigurableApplicationContext context = restartEndpoint.restart();
-                        logger.info("The application was restarted.  Context startupDate");//context.getStartupDate());
-                    }
-                    return null;
-                }
-            })
+            .handle(messageHandler)
             .get();
     }
 }

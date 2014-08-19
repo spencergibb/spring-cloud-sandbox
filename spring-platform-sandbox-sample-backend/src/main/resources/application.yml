@@ -18,6 +18,11 @@ logging:
     com:
       netflix: WARN
 
+spring:
+  platform:
+    bus:
+      producer: true
+      consumer: false
 
 eureka:
   client:
