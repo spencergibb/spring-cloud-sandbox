@@ -2,13 +2,10 @@ package io.spring.platform.bus.amqp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +30,7 @@ import org.springframework.platform.context.restart.RestartEndpoint;
  * @author Spencer Gibb
  */
 @Configuration
+@ConditionalOnClass(AmqpTemplate.class)
 public class AmqpBusAutoConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(AmqpBusAutoConfiguration.class);
     public static final String X_SPRING_PLATFORM_ORIGIN = "X-Spring-Platform-Origin";
@@ -44,7 +42,7 @@ public class AmqpBusAutoConfiguration {
     private AmqpAdmin amqpAdmin;
 
     @Autowired
-    RabbitTemplate rabbitTemplate;
+    AmqpTemplate amqpTemplate;
 
     @Autowired
     private ConfigurableEnvironment env;
@@ -100,7 +98,7 @@ public class AmqpBusAutoConfiguration {
                     }
                 })*/
                 .filter(acceptFromSelf())
-                .handle(Amqp.outboundAdapter(this.rabbitTemplate)
+                .handle(Amqp.outboundAdapter(this.amqpTemplate)
                         //.mappedRequestHeaders(X_SPRING_PLATFORM_ORIGIN)
                         .exchangeName("spring.platform.bus"))
                 .get();
@@ -146,6 +144,7 @@ public class AmqpBusAutoConfiguration {
         ApplicationEventPublishingMessageHandler messageHandler = new ApplicationEventPublishingMessageHandler();
         return IntegrationFlows.from(Amqp.inboundAdapter(connectionFactory, localPlatformBusQueue())
                 /*.mappedRequestHeaders(X_SPRING_PLATFORM_ORIGIN)*/)
+            //TODO: only accept messages to all services or the particular service? should that be at the amqp level?
             .filter(rejectMessagesFromSelf())
             //.channel(MessageChannels.direct().interceptor(new WireTap(wiretapChannel())))
             .handle(messageHandler)
