@@ -6,8 +6,6 @@ import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -23,8 +21,6 @@ import org.springframework.integration.dsl.channel.MessageChannels;
 import org.springframework.integration.event.inbound.ApplicationEventListeningMessageProducer;
 import org.springframework.integration.event.outbound.ApplicationEventPublishingMessageHandler;
 import org.springframework.integration.handler.LoggingHandler;
-import org.springframework.platform.config.client.RefreshEndpoint;
-import org.springframework.platform.context.restart.RestartEndpoint;
 
 /**
  * @author Spencer Gibb
@@ -47,22 +43,9 @@ public class AmqpBusAutoConfiguration {
     @Autowired
     private ConfigurableEnvironment env;
 
-    @Autowired(required = false)
-    private RefreshEndpoint refreshEndpoint;
-
-    @Autowired(required = false)
-    private RestartEndpoint restartEndpoint;
-    private int port;
-
-    //TODO: how to fail gracefully if no rabbit?
     @Bean
-    ApplicationListener<EmbeddedServletContainerInitializedEvent> servletInitListener() {
-        return new ApplicationListener<EmbeddedServletContainerInitializedEvent>() {
-            @Override
-            public void onApplicationEvent(EmbeddedServletContainerInitializedEvent event) {
-                port = event.getEmbeddedServletContainer().getPort();
-            }
-        };
+    public RefreshListener refreshListener() {
+        return new RefreshListener();
     }
 
     @Bean

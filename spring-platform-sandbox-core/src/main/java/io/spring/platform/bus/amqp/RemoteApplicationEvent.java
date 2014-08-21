@@ -9,11 +9,9 @@ import org.springframework.context.ApplicationEvent;
 @Data
 public class RemoteApplicationEvent extends ApplicationEvent {
     private final String originService;
-    private final String message;
 
-    public RemoteApplicationEvent(Object source, String originService, String message) {
+    public RemoteApplicationEvent(Object source, String originService) {
         super(source);
         this.originService = originService;
-        this.message = message;
     }
 }

@@ -15,14 +15,14 @@ import org.springframework.util.ClassUtils;
  * changes the logger to the new level.
  * Created by sgibb on 7/7/14.
  */
-public class LoggingListener implements ApplicationListener<EnvironmentChangeEvent> {
+public class LoggingListener /*implements ApplicationListener<EnvironmentChangeEvent>*/ {
     private static final Logger logger = LoggerFactory.getLogger(LoggingListener.class);
     public static final String LOGGING_LEVEL_PREFIX = "logging.level.";
 
     @Autowired
     Environment environment;
 
-    @Override
+    //@Override
     public void onApplicationEvent(EnvironmentChangeEvent event) {
         LoggingSystem system = LoggingSystem.get(ClassUtils.getDefaultClassLoader());
 

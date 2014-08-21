@@ -1,6 +1,6 @@
 package org.springframework.platform.sample.backend;
 
-import io.spring.platform.bus.amqp.RemoteApplicationEvent;
+import io.spring.platform.bus.amqp.RefreshRemoteApplicationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +24,16 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     public Message sendMessage(@RequestBody Message message) {
-        String appName = context.getEnvironment().getProperty("spring.application.name");
-        context.publishEvent(new RemoteApplicationEvent(this, appName, message.getBody()));
+        context.publishEvent(new MessageRemoteAppEvent(this, getAppName(), message.getBody()));
         return message;
+    }
+
+    @RequestMapping(value = "/sendrefresh", method = RequestMethod.POST)
+    public void sendRefresh() {
+        context.publishEvent(new RefreshRemoteApplicationEvent(this, getAppName()));
+    }
+
+    private String getAppName() {
+        return context.getEnvironment().getProperty("spring.application.name");
     }
 }
