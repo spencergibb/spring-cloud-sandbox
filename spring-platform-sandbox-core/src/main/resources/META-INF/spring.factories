@@ -1,6 +1,0 @@
-#org.springframework.context.ApplicationListener=\
-#org.springframework.platform.netflix.eureka.EurekaOutOfServiceListener
-
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.spring.platform.bus.amqp.AmqpBusAutoConfiguration,\
-io.spring.platform.bus.BusAutoConfiguration

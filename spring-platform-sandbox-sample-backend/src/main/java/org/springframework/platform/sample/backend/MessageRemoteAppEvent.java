@@ -1,7 +1,7 @@
 package org.springframework.platform.sample.backend;
 
-import io.spring.platform.bus.event.RemoteApplicationEvent;
 import lombok.Data;
+import org.springframework.platform.bus.event.RemoteApplicationEvent;
 
 /**
  * @author Spencer Gibb
