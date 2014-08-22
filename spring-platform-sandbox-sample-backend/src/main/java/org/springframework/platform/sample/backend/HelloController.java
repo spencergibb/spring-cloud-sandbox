@@ -1,6 +1,6 @@
 package org.springframework.platform.sample.backend;
 
-import io.spring.platform.bus.amqp.RefreshRemoteApplicationEvent;
+import io.spring.platform.bus.event.RefreshRemoteApplicationEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,5 +1,6 @@
 package io.spring.platform.bus.amqp;
 
+import io.spring.platform.bus.event.RemoteApplicationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -42,11 +43,6 @@ public class AmqpBusAutoConfiguration {
 
     @Autowired
     private ConfigurableEnvironment env;
-
-    @Bean
-    public RefreshListener refreshListener() {
-        return new RefreshListener();
-    }
 
     @Bean
     protected FanoutExchange platformBusExchange() {

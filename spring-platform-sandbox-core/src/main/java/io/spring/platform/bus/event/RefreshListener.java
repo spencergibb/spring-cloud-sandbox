@@ -1,4 +1,4 @@
-package io.spring.platform.bus.amqp;
+package io.spring.platform.bus.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

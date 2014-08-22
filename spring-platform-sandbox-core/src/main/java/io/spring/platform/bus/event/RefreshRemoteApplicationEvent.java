@@ -1,4 +1,4 @@
-package io.spring.platform.bus.amqp;
+package io.spring.platform.bus.event;
 
 /**
  * @author Spencer Gibb
