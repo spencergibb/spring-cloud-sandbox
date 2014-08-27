@@ -2,7 +2,6 @@ package org.springframework.platform.sample.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.platform.bus.event.RefreshRemoteApplicationEvent;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,13 +23,13 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)
     public Message sendMessage(@RequestBody Message message) {
-        context.publishEvent(new MessageRemoteAppEvent(this, getAppName(), message.getBody()));
         return message;
     }
 
-    @RequestMapping(value = "/sendrefresh", method = RequestMethod.POST)
-    public void sendRefresh() {
-        context.publishEvent(new RefreshRemoteApplicationEvent(this, getAppName()));
+    @RequestMapping(value = "/remotehello", method = RequestMethod.POST)
+    public Message remoteHello(@RequestBody Message message) {
+        context.publishEvent(new MessageRemoteAppEvent(this, getAppName(), message.getBody()));
+        return message;
     }
 
     private String getAppName() {
