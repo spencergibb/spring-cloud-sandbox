@@ -34,6 +34,22 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping("/ribbon")
+    public String ribbon(Map<String, Object> model, HttpServletRequest req) throws Exception {
+        String message = helloService.getRibbonMessage();
+        model.put("message", "Hello Ribbon "+ message);
+        values(model, req);
+        return "home";
+    }
+
+    @RequestMapping("/rt")
+    public String restTemplate(Map<String, Object> model, HttpServletRequest req) throws Exception {
+        String message = helloService.getRestTemplateMessage();
+        model.put("message", "Hello Rest Template "+ message);
+        values(model, req);
+        return "home";
+    }
+
     @RequestMapping("/future")
     public String future(Map<String, Object> model, HttpServletRequest req) throws ExecutionException, InterruptedException {
         model.put("message", "Hello Future "+helloService.getMessageFuture().get());

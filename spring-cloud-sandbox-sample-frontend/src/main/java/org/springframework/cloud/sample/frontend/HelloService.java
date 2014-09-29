@@ -1,8 +1,13 @@
 package org.springframework.cloud.sample.frontend;
 
+import com.netflix.client.http.HttpRequest;
+import com.netflix.client.http.HttpResponse;
+import com.netflix.http4.NFHttpClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.netflix.hystrix.contrib.javanica.command.ObservableResult;
+import com.netflix.niws.client.http.RestClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sample.backend.Message;
 import org.springframework.stereotype.Service;
@@ -22,10 +27,30 @@ public class HelloService {
     @Autowired
     HelloClient helloClient;
 
+    @Autowired
+    //NFHttpClient httpClient;
+    RestClient restClient;
+
     //@CircuitBreaker
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
     public String getMessage() {
         return getMessageImpl();
+    }
+
+    //@HystrixCommand(fallbackMethod = "getDefaultMessage")
+    public String getRibbonMessage() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri("http://localhost:7080/hello")
+                .verb(HttpRequest.Verb.GET)
+                .build();
+        //TODO: wire spring message decoders to jersey client in RestClient
+        HttpResponse response = restClient.execute(request);
+        return response.getEntity(Message.class).getBody();
+    }
+
+    public String getRestTemplateMessage() {
+        Message message = restTemplate.getForObject("http://samplebackendservice/hello", Message.class);
+        return message.getBody();
     }
 
     @HystrixCommand(fallbackMethod = "getDefaultMessage")

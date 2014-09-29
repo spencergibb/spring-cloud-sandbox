@@ -53,7 +53,7 @@
         <eureka.version>1.1.134</eureka.version>
         <feign.version>6.1.2</feign.version>
         <hystrix.version>1.4.0-RC4</hystrix.version>
-        <ribbon.version>0.3.12</ribbon.version>
+        <ribbon.version>0.3.13</ribbon.version>
         <zuul.version>1.0.24</zuul.version>
 		<spring-data-rest.version>2.2.0.BUILD-SNAPSHOT</spring-data-rest.version>
         <spring-cloud.version>${project.version}</spring-cloud.version>
@@ -177,7 +177,7 @@
             <dependency>
                 <groupId>org.springframework.integration</groupId>
                 <artifactId>spring-integration-java-dsl</artifactId>
-                <version>1.0.0.M2</version>
+                <version>1.0.0.BUILD-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.integration</groupId>

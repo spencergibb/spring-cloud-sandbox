@@ -10,6 +10,12 @@ endpoints:
 server:
   port: 9080
 
+spring:
+  cloud:
+    client:
+      serviceIds:
+        - samplebackendservice
+
 #TODO: set all this as defaults during autoconfigure
 samplebackendservice:
   ribbon:
@@ -20,22 +26,22 @@ samplebackendservice:
     #DeploymentContextBasedVipAddresses: samplebackendservice
 
     # Max number of retries on the same server (excluding the first try)
-    MaxAutoRetries: 1
+#    MaxAutoRetries: 1
 
     # Max number of next servers to retry (excluding the first server)
-    MaxAutoRetriesNextServer: 1
+#    MaxAutoRetriesNextServer: 1
 
     # Whether all operations can be retried for this client
-    OkToRetryOnAllOperations: true
+#    OkToRetryOnAllOperations: true
 
     # Interval to refresh the server list from the source
     ServerListRefreshInterval: 2000
 
     # Connect timeout used by Apache HttpClient
-    ConnectTimeout: 3000
+#    ConnectTimeout: 3000
 
     # Read timeout used by Apache HttpClient
-    ReadTimeout: 3000
+#    ReadTimeout: 3000
 
 eureka:
   client:
