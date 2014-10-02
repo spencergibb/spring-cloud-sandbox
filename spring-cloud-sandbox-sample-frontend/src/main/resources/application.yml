@@ -10,12 +10,6 @@ endpoints:
 server:
   port: 9080
 
-spring:
-  cloud:
-    client:
-      serviceIds:
-        - samplebackendservice
-
 #TODO: set all this as defaults during autoconfigure
 samplebackendservice:
   ribbon:
