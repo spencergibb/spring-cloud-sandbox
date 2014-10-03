@@ -6,9 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * @author Spencer Gibb
@@ -20,11 +25,35 @@ public class HystrixStreamTask {
     @Autowired
     private HystrixStreamChannel channel;
 
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    private final LinkedBlockingQueue<String> jsonMetrics = new LinkedBlockingQueue<String>(1000);
+
     private final JsonFactory jsonFactory = new JsonFactory();
 
-    //TODO: move to configuration
-    @Scheduled(fixedRate = 5000)
-    public void sendToHystrix() {
+    //TODO: use integration to split this up?
+    @Scheduled(fixedRate = 500)
+    public void sendMetrics() {
+        ArrayList<String> metrics = new ArrayList<String>();
+        jsonMetrics.drainTo(metrics);
+
+        if (!metrics.isEmpty()) {
+            for (String json: metrics) {
+                //TODO: batch all metrics to one message
+                try {
+                    channel.send(json);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //@InboundChannelAdapter()
+    //TODO: move fixedRate to configuration
+    @Scheduled(fixedRate = 500)
+    public void gatherMetrics() {
         try {
             // command metrics
             for (HystrixCommandMetrics commandMetrics : HystrixCommandMetrics.getInstances()) {
@@ -35,6 +64,9 @@ public class HystrixStreamTask {
                 JsonGenerator json = jsonFactory.createJsonGenerator(jsonString);
 
                 json.writeStartObject();
+
+                addServiceData(json);
+                json.writeObjectFieldStart("data");
                 json.writeStringField("type", "HystrixCommand");
                 json.writeStringField("name", key.name());
                 json.writeStringField("group", commandMetrics.getCommandGroup().name());
@@ -129,11 +161,12 @@ public class HystrixStreamTask {
 
                 json.writeNumberField("reportingHosts", 1); // this will get summed across all instances in a cluster
 
+                json.writeEndObject(); // end data attribute
                 json.writeEndObject();
                 json.close();
 
                 // output
-                channel.send(jsonString.getBuffer().toString());
+                jsonMetrics.add(jsonString.getBuffer().toString());
             }
 
             // thread pool metrics
@@ -143,6 +176,9 @@ public class HystrixStreamTask {
                 StringWriter jsonString = new StringWriter();
                 JsonGenerator json = jsonFactory.createJsonGenerator(jsonString);
                 json.writeStartObject();
+
+                addServiceData(json);
+                json.writeObjectFieldStart("data");
 
                 json.writeStringField("type", "HystrixThreadPool");
                 json.writeStringField("name", key.name());
@@ -164,13 +200,23 @@ public class HystrixStreamTask {
 
                 json.writeNumberField("reportingHosts", 1); // this will get summed across all instances in a cluster
 
+                json.writeEndObject(); // end of data object
                 json.writeEndObject();
                 json.close();
                 // output to stream
-                channel.send(jsonString.getBuffer().toString());
+                jsonMetrics.add(jsonString.getBuffer().toString());
             }
         } catch (Exception e) {
-            log.error("Error sending metrics to spring.cloud.bus.hystrix.stream", e);
+            log.error("Error adding metrics to queue", e);
         }
+    }
+
+    private void addServiceData(JsonGenerator json) throws IOException {
+        ServiceInstance localService = discoveryClient.getLocalServiceInstance();
+        json.writeObjectFieldStart("origin");
+        json.writeStringField("host", localService.getHost());
+        json.writeNumberField("port", localService.getPort());
+        json.writeStringField("serviceId", localService.getServiceId());
+        json.writeEndObject();
     }
 }
