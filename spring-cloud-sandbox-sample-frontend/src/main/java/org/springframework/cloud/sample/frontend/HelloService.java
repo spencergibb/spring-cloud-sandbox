@@ -2,12 +2,10 @@ package org.springframework.cloud.sample.frontend;
 
 import com.netflix.client.http.HttpRequest;
 import com.netflix.client.http.HttpResponse;
-import com.netflix.http4.NFHttpClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import com.netflix.hystrix.contrib.javanica.command.ObservableResult;
 import com.netflix.niws.client.http.RestClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sample.backend.Message;
 import org.springframework.stereotype.Service;
@@ -48,6 +46,7 @@ public class HelloService {
         return response.getEntity(Message.class).getBody();
     }
 
+    @HystrixCommand(fallbackMethod = "getDefaultMessage")
     public String getRestTemplateMessage() {
         Message message = restTemplate.getForObject("http://samplebackendservice/hello", Message.class);
         return message.getBody();
