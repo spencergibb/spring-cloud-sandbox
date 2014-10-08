@@ -12,12 +12,10 @@ import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.interceptor.WireTap;
 import org.springframework.integration.config.GlobalChannelInterceptor;
-import org.springframework.integration.dsl.HeaderEnricherSpec;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.amqp.Amqp;
 import org.springframework.integration.dsl.channel.MessageChannels;
-import org.springframework.integration.dsl.support.ComponentConfigurer;
 import org.springframework.integration.handler.LoggingHandler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -77,12 +75,12 @@ public class HystrixStreamAutoConfiguration {
     public IntegrationFlow hystrixStreamOutboundFlow() {
         return IntegrationFlows.from("hystrixStream")
                 //TODO: set content type
-                .enrichHeaders(new ComponentConfigurer<HeaderEnricherSpec>() {
+                /*.enrichHeaders(new ComponentConfigurer<HeaderEnricherSpec>() {
                     @Override
                     public void configure(HeaderEnricherSpec spec) {
                         spec.header("content-type", "application/json", true);
                     }
-                })
+                })*/
                 .handle(Amqp.outboundAdapter(this.amqpTemplate).exchangeName(QUEUE_NAME))
                 .get();
     }

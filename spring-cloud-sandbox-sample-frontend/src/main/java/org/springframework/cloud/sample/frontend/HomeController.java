@@ -59,7 +59,7 @@ public class HomeController {
 
     @RequestMapping("/rx")
     public String rx(Map<String, Object> model, HttpServletRequest req)  {
-        model.put("message", "Hello Observable "+helloService.getMessageRx().toBlockingObservable().first());
+        model.put("message", "Hello Observable "+helloService.getMessageRx().toBlocking().first());
         values(model, req);
         return "home";
     }

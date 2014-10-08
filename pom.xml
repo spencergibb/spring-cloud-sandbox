@@ -137,6 +137,12 @@
                 <groupId>com.netflix.hystrix</groupId>
                 <artifactId>hystrix-core</artifactId>
                 <version>${hystrix.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.netflix.rxjava</groupId>
+                        <artifactId>rxjava-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.netflix.hystrix</groupId>
@@ -152,6 +158,12 @@
                 <groupId>com.netflix.ribbon</groupId>
                 <artifactId>ribbon-core</artifactId>
                 <version>${ribbon.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.netflix.rxjava</groupId>
+                        <artifactId>rxjava-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.netflix.ribbon</groupId>
