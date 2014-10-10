@@ -1,4 +1,4 @@
-package io.spring.cloud.util;
+package org.springframework.cloud.util;
 
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;

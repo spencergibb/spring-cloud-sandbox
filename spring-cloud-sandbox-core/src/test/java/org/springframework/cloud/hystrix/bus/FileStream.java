@@ -13,6 +13,8 @@ import com.netflix.turbine.internal.JsonUtility;
 import rx.Observable;
 import rx.observables.GroupedObservable;
 
+import static org.springframework.cloud.hystrix.bus.HystrixStreamAggregator.getPayloadData;
+
 public class FileStream {
 
     public static final String STREAM_ALL = "hystrixbus";
@@ -23,7 +25,7 @@ public class FileStream {
 
     // a hack to simulate a stream
     public static Observable<GroupedObservable<TypeAndNameKey, Map<String, Object>>> getHystrixStreamFromFile(final String stream, final int latencyBetweenEvents) {
-        Observable<GroupedObservable<InstanceKey, Map<String, Object>>> observable = Observable.create(sub -> {
+        Observable<Map<String, Object>> objectObservable = Observable.create(sub -> {
             try {
                 while (!sub.isUnsubscribed()) {
                     String packagePath = FileStream.class.getPackage().getName().replace('.', '/');
@@ -36,13 +38,7 @@ public class FileStream {
                                 String json = line.trim();
                                 try {
                                     Map<String, Object> jsonMap = JsonUtility.jsonToMap(json);
-                                    Map<String, Object> origin = (Map<String, Object>) jsonMap.get("origin");
-                                    //TODO: instanceid template
-                                    //String instanceId = origin.get("serviceId")+":"+origin.get("host")+":"+origin.get("port");
-                                    String instanceId = origin.get("serviceId") + ":" + origin.get("ipAddress") + ":" + origin.get("port");
-                                    Map<String, Object> data = (Map<String, Object>) jsonMap.get("data");
-
-                                    data.put("instanceId", instanceId);
+                                    Map<String, Object> data = getPayloadData(jsonMap);
                                     sub.onNext(data);
                                     Thread.sleep(latencyBetweenEvents);
                                 } catch (Exception e) {
@@ -55,7 +51,8 @@ public class FileStream {
             } catch (Exception e) {
                 sub.onError(e);
             }
-        }).groupBy(data -> InstanceKey.create((String) data.get("instanceId")));
+        });
+        Observable<GroupedObservable<InstanceKey, Map<String, Object>>> observable = objectObservable.groupBy(data -> InstanceKey.create((String) data.get("instanceId")));
         return StreamAggregator.aggregateGroupedStreams(observable);
     }
 
