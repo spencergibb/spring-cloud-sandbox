@@ -39,9 +39,16 @@ public class HystrixStreamAggregator {
 
     public static Map<String, Object> getPayloadData(Map<String, Object> jsonMap) {
         Map<String, Object> origin = (Map<String, Object>) jsonMap.get("origin");
-        //TODO: instanceid template
-        String instanceId = origin.get("serviceId")+":"+origin.get("host")+":"+origin.get("port");
-        //String instanceId = origin.get("serviceId") + ":" + origin.get("ipAddress") + ":" + origin.get("port");
+
+        String instanceId = null;
+        if (origin.containsKey("id")) {
+            instanceId = origin.get("id").toString();
+        } else {
+            //TODO: instanceid template
+            instanceId = origin.get("serviceId")+":"+origin.get("host")+":"+origin.get("port");
+            //instanceId = origin.get("serviceId") + ":" + origin.get("ipAddress") + ":" + origin.get("port");
+        }
+
         Map<String, Object> data = (Map<String, Object>) jsonMap.get("data");
 
         data.put("instanceId", instanceId);

@@ -2,7 +2,6 @@ package org.springframework.cloud.hystrix.bus;
 
 import com.netflix.turbine.aggregator.InstanceKey;
 import com.netflix.turbine.aggregator.StreamAggregator;
-import com.netflix.turbine.aggregator.TypeAndNameKey;
 import com.netflix.turbine.internal.JsonUtility;
 import io.netty.buffer.ByteBuf;
 import io.reactivex.netty.RxNetty;
@@ -13,17 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.SmartLifecycle;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.observables.GroupedObservable;
 import rx.subjects.PublishSubject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,11 +38,9 @@ public class HystrixAggregatorApp implements SmartLifecycle {
 
     @Bean
     public HttpServer<ByteBuf, ServerSentEvent> aggregatorServer() {
-        Observable<GroupedObservable<InstanceKey, Map<String, Object>>> observable = hystrixSubject().groupBy(data -> InstanceKey.create((String) data.get("instanceId")));
-
         // multicast so multiple concurrent subscribers get the same stream
-        Observable<GroupedObservable<TypeAndNameKey, Map<String, Object>>> streams = StreamAggregator.aggregateGroupedStreams(observable);
-        Observable<Map<String, Object>> publishedStreams = streams
+        Observable<Map<String, Object>> publishedStreams = StreamAggregator.aggregateGroupedStreams(hystrixSubject()
+                    .groupBy(data -> InstanceKey.create((String) data.get("instanceId"))))
                 .doOnUnsubscribe(() -> log.info("XTurbine => Unsubscribing aggregation."))
                 .doOnSubscribe(() -> log.info("XTurbine => Starting aggregation"))
                 .flatMap(o -> o).publish().refCount();
@@ -58,9 +50,7 @@ public class HystrixAggregatorApp implements SmartLifecycle {
             response.getHeaders().setHeader("Content-Type", "text/event-stream");
             return publishedStreams
                     .doOnUnsubscribe(() -> log.info("XTurbine => Unsubscribing RxNetty server connection"))
-                    .flatMap(data -> {
-                        return response.writeAndFlush(new ServerSentEvent(null, null, JsonUtility.mapToJson(data)));
-                    });
+                    .flatMap(data -> response.writeAndFlush(new ServerSentEvent(null, null, JsonUtility.mapToJson(data))));
         }, PipelineConfigurators.<ByteBuf>sseServerConfigurator());
         return httpServer;
     }

@@ -8,7 +8,9 @@ import org.codehaus.jackson.JsonGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -28,14 +30,17 @@ public class HystrixStreamTask {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private final LinkedBlockingQueue<String> jsonMetrics = new LinkedBlockingQueue<String>(1000);
+    @Autowired
+    private ApplicationContext context;
+
+    private final LinkedBlockingQueue<String> jsonMetrics = new LinkedBlockingQueue<>(1000);
 
     private final JsonFactory jsonFactory = new JsonFactory();
 
     //TODO: use integration to split this up?
     @Scheduled(fixedRate = 500)
     public void sendMetrics() {
-        ArrayList<String> metrics = new ArrayList<String>();
+        ArrayList<String> metrics = new ArrayList<>();
         jsonMetrics.drainTo(metrics);
 
         if (!metrics.isEmpty()) {
@@ -217,6 +222,7 @@ public class HystrixStreamTask {
         json.writeStringField("host", localService.getHost());
         json.writeNumberField("port", localService.getPort());
         json.writeStringField("serviceId", localService.getServiceId());
+        json.writeStringField("id", context.getId());
         if (localService.getIpAddress() != null) {
             json.writeStringField("ipAddress", localService.getIpAddress());
         }
