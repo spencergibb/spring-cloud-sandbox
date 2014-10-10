@@ -37,6 +37,12 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sandbox-core</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.reactivex</groupId>
+                    <artifactId>rxjava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -131,6 +137,11 @@
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.netflix.rxjava</groupId>
+            <artifactId>rxjava-core</artifactId>
+            <version>0.18.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
