@@ -10,7 +10,6 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -38,8 +37,9 @@ public class HystrixStreamTask {
     private final JsonFactory jsonFactory = new JsonFactory();
 
     //TODO: use integration to split this up?
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRateString = "${hystrix.stream.bus.sendRate:500}")
     public void sendMetrics() {
+        log.trace("sending metrics");
         ArrayList<String> metrics = new ArrayList<>();
         jsonMetrics.drainTo(metrics);
 
@@ -57,9 +57,10 @@ public class HystrixStreamTask {
 
     //@InboundChannelAdapter()
     //TODO: move fixedRate to configuration
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRateString = "${hystrix.stream.bus.gatherRate:500}")
     public void gatherMetrics() {
         try {
+            log.trace("gathering metrics");
             // command metrics
             for (HystrixCommandMetrics commandMetrics : HystrixCommandMetrics.getInstances()) {
                 HystrixCommandKey key = commandMetrics.getCommandKey();

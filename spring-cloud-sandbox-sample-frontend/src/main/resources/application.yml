@@ -10,6 +10,16 @@ endpoints:
 server:
   port: 9080
 
+spring:
+  application:
+    name: samplefrontendservice
+
+hystrix:
+  stream:
+    bus:
+      enabled: true
+      sendRate: 600
+
 #TODO: set all this as defaults during autoconfigure
 samplebackendservice:
   ribbon:
