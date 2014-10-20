@@ -1,2 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.springframework.cloud.hystrix.bus.HystrixStreamAutoConfiguration
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#org.springframework.cloud.my.MyAutoConfiguration

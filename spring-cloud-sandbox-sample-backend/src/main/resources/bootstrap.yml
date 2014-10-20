@@ -3,4 +3,4 @@ spring:
     name: samplebackendservice
   cloud:
     config:
-      uri: http://localhost:${config.port:8888}
+      uri: http://user:password@localhost:${config.port:8888}
