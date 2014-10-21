@@ -2,10 +2,7 @@ package org.springframework.cloud.sample.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by sgibb on 6/17/14.
@@ -17,8 +14,8 @@ public class HelloController {
     ConfigurableApplicationContext context;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public Message hello() {
-        return new Message("World");
+    public Message hello(@RequestParam(value = "msg", defaultValue = "World") String msg) {
+        return new Message(msg);
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST)

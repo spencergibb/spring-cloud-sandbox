@@ -26,13 +26,16 @@ public class HelloService {
     HelloClient helloClient;
 
     @Autowired
-    //NFHttpClient httpClient;
     RestClient restClient;
 
-    //@CircuitBreaker
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
     public String getMessage() {
         return getMessageImpl();
+    }
+
+    @HystrixCommand(fallbackMethod = "getDefaultMessage")
+    public String getMessage(String msg) {
+        return helloClient.hello(msg).getBody();
     }
 
     //@HystrixCommand(fallbackMethod = "getDefaultMessage")
@@ -84,9 +87,11 @@ public class HelloService {
     }
 
     private String getMessageImpl() {
-        /*ResponseEntity<Message> message = restTemplate.getForEntity("http://localhost:7080/hello", Message.class);
-        return message.getBody().getBody();*/
         return helloClient.hello().getBody();
+    }
+
+    private String getDefaultMessage(String msg) {
+        return "World "+msg+" Default";
     }
 
     private String getDefaultMessage() {

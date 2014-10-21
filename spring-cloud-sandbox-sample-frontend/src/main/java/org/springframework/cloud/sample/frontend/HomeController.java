@@ -71,6 +71,14 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping("/terra")
+    public String terra(Map<String, Object> model, HttpServletRequest req) {
+        String message = helloService.getMessage("terra");
+        model.put("message", "Hello "+ message);
+        values(model, req);
+        return "home";
+    }
+
     private void values(Map<String, Object> model, HttpServletRequest req) {
         model.put("foo", frontendProperties.getFoo());
         model.put("title", "Hello Home");
