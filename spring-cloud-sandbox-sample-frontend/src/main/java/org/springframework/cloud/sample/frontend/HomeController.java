@@ -3,6 +3,7 @@ package org.springframework.cloud.sample.frontend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,6 +26,9 @@ public class HomeController {
 
     @Autowired
     FrontendProperties frontendProperties;
+
+    @Autowired
+    ApplicationContext context;
 
     @RequestMapping("/")
     public String home(Map<String, Object> model, HttpServletRequest req) {
@@ -86,6 +90,7 @@ public class HomeController {
         model.put("port", req.getLocalPort());
         //List<Post> posts = postClient.posts();
         model.put("posts", new ArrayList<>());
+        model.put("contextId", context.getId());
     }
 
     @RequestMapping("/loglevels")

@@ -32,8 +32,8 @@ eureka:
       availabilityZones: default
 
     serviceUrl:
-       defaultZone: http://localhost:8761/v2/
+       defaultZone: http://localhost:8761/eureka/
 
   instance:
     #Virtual host name by which the clients identifies this service
-    virtualHostName: ${spring.application.name}
+    #virtualHostName: ${spring.application.name}
