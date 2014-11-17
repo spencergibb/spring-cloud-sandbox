@@ -58,9 +58,6 @@ niws:
       filterCircuitTripped: false
 
 logging:
-  level: INFO
-
-logging:
   level:
     com:
       netflix: WARN

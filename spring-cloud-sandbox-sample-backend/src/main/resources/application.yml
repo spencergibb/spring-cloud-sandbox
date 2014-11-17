@@ -11,9 +11,6 @@ server:
   port: 7080
 
 logging:
-  level: INFO
-
-logging:
   level:
     com:
       netflix: WARN
@@ -34,6 +31,6 @@ eureka:
     serviceUrl:
        defaultZone: http://localhost:8761/eureka/
 
-  instance:
+  #instance:
     #Virtual host name by which the clients identifies this service
     #virtualHostName: ${spring.application.name}
