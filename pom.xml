@@ -5,8 +5,8 @@
 	<artifactId>spring-cloud-sandbox</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>Spring Platform Sandbox</name>
-	<description>Spring Platform Sandbox</description>
+	<name>Spring Cloud Sandbox</name>
+	<description>Spring Cloud Sandbox</description>
 	<url>http://projects.spring.io/spring-cloud/</url>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

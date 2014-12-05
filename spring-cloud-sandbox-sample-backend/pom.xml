@@ -5,7 +5,7 @@
     <artifactId>spring-cloud-sandbox-sample-backend</artifactId>
     <version>1.0.0.BUILD-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Spring Platform Sandbox Sample Backend</name>
+    <name>Spring Cloud Sandbox Sample Backend</name>
     <url>http://projects.spring.io/spring-cloud/</url>
     <parent>
         <groupId>org.springframework.cloud</groupId>
