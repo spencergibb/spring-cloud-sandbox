@@ -80,6 +80,11 @@ public class HelloService {
         };
     }
 
+	@HystrixCommand(fallbackMethod = "getRxDefaultMessage")
+	public Observable<String> getMessageRxFail() {
+		throw new RuntimeException("getMessageRxFail failed on purpose");
+	}
+
     @HystrixCommand(fallbackMethod = "getDefaultMessage")
     //TODO: setup hystrix to log errors by default
     public String getMessageFail() {
@@ -97,4 +102,15 @@ public class HelloService {
     private String getDefaultMessage() {
         return "World Default";
     }
+
+	private /*Observable<*/String/*>*/ getRxDefaultMessage() {
+		/* fails with java.lang.ClassCastException: org.springframework.cloud.sample.frontend.HelloService$3 cannot be cast to java.lang.String
+		return new ObservableResult<String>() {
+			@Override
+			public String invoke() {
+				return "World Rx Default";
+			}
+		}; */
+		return "World Rx Default";
+	}
 }
