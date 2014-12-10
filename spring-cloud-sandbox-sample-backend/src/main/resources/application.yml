@@ -16,6 +16,10 @@ logging:
       netflix: WARN
 
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
   client:
     #Region where eureka is deployed -For AWS specify one of the AWS regions, for other datacenters specify a arbitrary string
     #indicating the region.

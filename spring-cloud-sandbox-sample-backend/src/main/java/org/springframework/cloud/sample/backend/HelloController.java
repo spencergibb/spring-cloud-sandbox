@@ -13,6 +13,15 @@ public class HelloController {
     @Autowired
     ConfigurableApplicationContext context;
 
+	@Autowired
+	MyService myService;
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String slash() {
+		return myService.getName();
+	}
+
+
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public Message hello(@RequestParam(value = "msg", defaultValue = "World") String msg) {
         return new Message(msg);

@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.FeignConfiguration;
+import org.springframework.cloud.netflix.feign.FeignClientScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +20,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @EnableCircuitBreaker
 @EnableDiscoveryClient
-public class Application extends FeignConfiguration {
+@FeignClientScan
+public class FrontendApplication {
 
     @Bean
     public NFHttpClient nfHttpClient() {
@@ -32,14 +33,7 @@ public class Application extends FeignConfiguration {
         return (RestClient) ClientFactory.getNamedClient("default");
     }
 
-    @Bean
-    public HelloClient helloClient() {
-        //return feign().target(HelloClient.class, "http://samplebackendservice");
-        //TODO: create proxy for interface if annotated with a marker
-        return loadBalance(HelloClient.class, "http://samplebackendservice");
-    }
-
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(FrontendApplication.class, args);
     }
 }
