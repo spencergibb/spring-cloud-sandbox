@@ -127,7 +127,7 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-bus-hystrix</artifactId>
+                <artifactId>spring-cloud-netflix-hystrix-amqp</artifactId>
                 <version>${spring-cloud.version}</version>
             </dependency>
             <dependency>
