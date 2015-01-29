@@ -130,6 +130,11 @@
                 <artifactId>spring-cloud-netflix-hystrix-amqp</artifactId>
                 <version>${spring-cloud.version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-feign</artifactId>
+				<version>${spring-cloud.version}</version>
+			</dependency>
             <dependency>
                 <groupId>com.netflix.rxjava</groupId>
                 <artifactId>rxjava-core</artifactId>
